@@ -9,7 +9,8 @@ void    add_entry_at_location     (struct table *t, struct table_entry *te, unsi
 void    add_entry                 (struct table *t, struct table_entry *te);
 void    add_entry_to_entry        (struct table_entry *base, struct table_entry *te);
 struct table_entry*     remove_from_chain   (struct table *t, struct table_entry *te, void *key);
-int     exists_in_chain           (struct table *t, struct table_entry *te, void *key);
+struct table_entry*     get_entry           (struct table *t, void *key);
+struct table_entry*     get_entry_in_chain  (struct table *t, struct table_entry *te, void *key);
 int     count_chain               (struct table_entry *te);
 void    print_entries_chained     (struct table_entry *te);
 struct table_entry*     mk_entry            ();
@@ -97,23 +98,39 @@ struct table_entry* remove_from_chain(struct table *t, struct table_entry *te, v
   return te->next;
 }
 
-int table_exists(struct table *t, void *key) {
+int table_exists (struct table *t, void *key) {
+  struct table_entry *te = get_entry(t, key);
+
+  return te != NULL;
+}
+
+void* table_lookup (struct table *t, void *key) {
+  struct table_entry *te = get_entry(t, key);
+
+  if (te) {
+    return te->value;
+  } else {
+    return NULL;
+  }
+}
+
+struct table_entry* get_entry(struct table *t, void *key) {
   int location = get_location(t, key);
 
   if (!t->entries[location]) {
-    return 0;
+    return NULL;
   }
 
-  return exists_in_chain(t, t->entries[location], key);
+  return get_entry_in_chain(t, t->entries[location], key);
 }
 
-int exists_in_chain(struct table *t, struct table_entry *te, void *key) {
+struct table_entry* get_entry_in_chain(struct table *t, struct table_entry *te, void *key) {
   if (!te) {
-    return 0;
+    return NULL;
   } else if (t->eq(te->key, key)) {
-    return 1;
+    return te->value;
   } else {
-    return exists_in_chain(t, te->next, key);
+    return get_entry_in_chain(t, te->next, key);
   }
 }
 

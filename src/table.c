@@ -8,6 +8,7 @@ void set_table_size(struct table *t, unsigned int size);
 void add_entry_at_location(struct table *t, struct table_entry *te, unsigned int location);
 void add_entry(struct table *t, struct table_entry *te);
 void append_entry(struct table_entry *base, struct table_entry *te);
+struct table_entry* mk_entry();
 
 struct table_entry {
   void* entry;

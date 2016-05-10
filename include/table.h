@@ -10,7 +10,6 @@ struct table {
 };
 
 struct table* mk_table(int size, HASH_FUNCTION(hash));
-struct table_entry* mk_entry();
 
 void add_to_table(struct table *t, void *value);
 

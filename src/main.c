@@ -35,6 +35,8 @@ int main() {
   printf("%d\n", table_exists(t, e3));
   printf("%d\n", table_exists(t, e4));
 
+  printf("Count: %d\n", table_count(t));
+
   return 0;
 }
 

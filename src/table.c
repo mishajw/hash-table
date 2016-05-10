@@ -8,8 +8,10 @@ void set_table_size(struct table *t, unsigned int size);
 void add_entry_at_location(struct table *t, struct table_entry *te, unsigned int location);
 void add_entry(struct table *t, struct table_entry *te);
 void add_entry_to_entry(struct table_entry *base, struct table_entry *te);
+struct table_entry* remove_from_chain(struct table_entry *te, void *value);
 void print_entries_chained(struct table_entry *te);
 struct table_entry* mk_entry();
+int get_location(struct table *t, void *value);
 
 struct table_entry {
   void* entry;
@@ -43,10 +45,8 @@ void table_add(struct table *t, void *value) {
 }
 
 void add_entry(struct table *t, struct table_entry *te) {
-  unsigned long hash = t->hash(te->entry);
-  unsigned int bounded_hash = (int) (hash % ((long) t->size));
-
-  add_entry_at_location(t, te, bounded_hash);
+  int location = get_location(t, te->entry);
+  add_entry_at_location(t, te, location);
 }
 
 void add_entry_at_location(struct table *t, struct table_entry *te, unsigned int location) {
@@ -70,6 +70,26 @@ void add_entry_to_entry(struct table_entry *base, struct table_entry *te) {
   } else {
     base->next = te;
   }
+}
+
+void table_remove(struct table *t, void *value) {
+  int location = get_location(t, value);
+  t->entries[location] = remove_from_chain(t->entries[location], value);
+}
+
+struct table_entry* remove_from_chain(struct table_entry *te, void *value) {
+  if (!te) {
+    fprintf(stderr, "Can't delete %s because doesn't exist", value);
+    return NULL;
+  }
+
+  if (te->entry != value) {
+    struct table_entry *new_next = remove_from_chain(te->next, value);
+    te->next = new_next;
+    return te;
+  }
+
+  return te->next;
 }
 
 void table_print_entries(struct table *t) {
@@ -96,5 +116,10 @@ struct table_entry* mk_entry() {
   te->next = NULL;
 
   return te;
+}
+
+int get_location(struct table *t, void *value) {
+  unsigned long hash = t->hash(value);
+  return (int) (hash % ((long) t->size));
 }
 

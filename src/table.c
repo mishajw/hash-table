@@ -16,7 +16,8 @@ struct table_entry*     mk_entry            ();
 int     get_location              (struct table *t, void *key);
 
 struct table_entry {
-  void* entry;
+  void *entry;
+  void *value;
   struct table_entry* next;
 };
 
@@ -40,9 +41,10 @@ void set_table_size(struct table *t, unsigned int size) {
   memset(t->entries, '\0', chunk_size);
 }
 
-void table_add(struct table *t, void *key) {
+void table_add(struct table *t, void *key, void *value) {
   struct table_entry *te = mk_entry();
   te->entry = key;
+  te->value = value;
 
   add_entry(t, te);
 }

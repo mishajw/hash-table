@@ -165,7 +165,7 @@ void table_print_entries(struct table *t) {
 }
 
 void print_entries_chained(struct table_entry *te) {
-  printf("%s\n", (char *) te->key);
+  printf("%s -> %s\n", (char *) te->key, (char *) te->value);
 
   if (te->next) {
     print_entries_chained(te->next);

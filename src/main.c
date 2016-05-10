@@ -29,6 +29,11 @@ int main() {
   table_remove(t, e2);
 
   table_print_entries(t);
+  
+  printf("%d\n", table_exists(t, e1));
+  printf("%d\n", table_exists(t, e2));
+  printf("%d\n", table_exists(t, e3));
+  printf("%d\n", table_exists(t, e4));
 
   return 0;
 }

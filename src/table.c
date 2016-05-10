@@ -57,7 +57,6 @@ void add_entry_at_location(struct table *t, struct table_entry *te, unsigned int
 
   if (!te_current) {
     t->entries[location] = te;
-    return;
   } else {
     append_entry(te_current, te);
   }

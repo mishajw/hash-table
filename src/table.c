@@ -1,4 +1,4 @@
-#include "table.h"
+#include "../include/table.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -16,7 +16,7 @@ struct table_entry*     mk_entry            ();
 int     get_location              (struct table *t, void *key);
 
 struct table_entry {
-  void *entry;
+  void *key;
   void *value;
   struct table_entry* next;
 };
@@ -43,14 +43,14 @@ void set_table_size(struct table *t, unsigned int size) {
 
 void table_add(struct table *t, void *key, void *value) {
   struct table_entry *te = mk_entry();
-  te->entry = key;
+  te->key = key;
   te->value = value;
 
   add_entry(t, te);
 }
 
 void add_entry(struct table *t, struct table_entry *te) {
-  int location = get_location(t, te->entry);
+  int location = get_location(t, te->key);
   add_entry_at_location(t, te, location);
 }
 
@@ -88,7 +88,7 @@ struct table_entry* remove_from_chain(struct table *t, struct table_entry *te, v
     return NULL;
   }
 
-  if (!t->eq(te->entry, key)) {
+  if (!t->eq(te->key, key)) {
     struct table_entry *new_next = remove_from_chain(t, te->next, key);
     te->next = new_next;
     return te;
@@ -110,7 +110,7 @@ int table_exists(struct table *t, void *key) {
 int exists_in_chain(struct table *t, struct table_entry *te, void *key) {
   if (!te) {
     return 0;
-  } else if (t->eq(te->entry, key)) {
+  } else if (t->eq(te->key, key)) {
     return 1;
   } else {
     return exists_in_chain(t, te->next, key);
@@ -148,7 +148,7 @@ void table_print_entries(struct table *t) {
 }
 
 void print_entries_chained(struct table_entry *te) {
-  printf("%s\n", (char *) te->entry);
+  printf("%s\n", (char *) te->key);
 
   if (te->next) {
     print_entries_chained(te->next);
@@ -157,7 +157,8 @@ void print_entries_chained(struct table_entry *te) {
 
 struct table_entry* mk_entry() {
   struct table_entry *te = malloc(sizeof(struct table_entry));
-  te->entry = NULL;
+  te->key = NULL;
+  te->value = NULL;
   te->next = NULL;
 
   return te;

@@ -6,8 +6,9 @@
 int main() {
   struct table* t = mk_table(100, NULL);
 
-  struct table_entry* te = mk_entry();
-  add_to_table(t, te, 5);
+  add_to_table(t, "Element One");
+
+  add_to_table(t, "Element Two");
 
   return 0;
 }

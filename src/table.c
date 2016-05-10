@@ -5,6 +5,13 @@
 
 /* Private functions */
 void set_table_size(struct table *t, unsigned int size);
+void add_entry_at_location(struct table *t, struct table_entry *te, unsigned int location);
+void append_entry(struct table_entry *base, struct table_entry *te);
+
+struct table_entry {
+  void* entry;
+  struct table_entry* next;
+};
 
 struct table* mk_table(int size, long (*hash)(int)) {
   struct table *t = malloc(sizeof(struct table));
@@ -15,6 +22,13 @@ struct table* mk_table(int size, long (*hash)(int)) {
   set_table_size(t, size);
 
   return t;
+}
+
+void add_to_table(struct table *t, void *value) {
+  struct table_entry *e = mk_entry();
+  e->entry = value;
+
+  printf("TODO: Inserting value at hash location\n");
 }
 
 void set_table_size(struct table *t, unsigned int size) {
@@ -33,7 +47,7 @@ struct table_entry* mk_entry() {
   return te;
 }
 
-void add_to_table(struct table *t, struct table_entry *te, unsigned int location) {
+void add_entry_at_location(struct table *t, struct table_entry *te, unsigned int location) {
   if (location >= t->size) {
     fprintf(stderr, "Location %d too large for table of size %d", location, t->size);
     exit(1);
@@ -44,8 +58,16 @@ void add_to_table(struct table *t, struct table_entry *te, unsigned int location
   if (!te_current) {
     t->entries[location] = te;
     return;
+  } else {
+    append_entry(te_current, te);
   }
+}
 
-  fprintf(stderr, "Collision detected. Not adding element to table.");
+void append_entry(struct table_entry *base, struct table_entry *te) {
+  if (base->next) {
+    append_entry(base->next, te);
+  } else {
+    base->next = te;
+  }
 }
 

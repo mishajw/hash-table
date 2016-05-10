@@ -1,13 +1,15 @@
 #ifndef TABLE
 #define TABLE
 
+#define HASH_FUNCTION(name) unsigned long (*name)(void*)
+
 struct table {
   unsigned int size;
   struct table_entry **entries;
-  long (*hash)(void*);
+  HASH_FUNCTION(hash);
 };
 
-struct table* mk_table(int size, long (*hash)(void*));
+struct table* mk_table(int size, HASH_FUNCTION(hash));
 struct table_entry* mk_entry();
 
 void add_to_table(struct table *t, void *value);

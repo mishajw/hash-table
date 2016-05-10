@@ -13,7 +13,7 @@ struct table_entry {
   struct table_entry* next;
 };
 
-struct table* mk_table(int size, long (*hash)(void*)) {
+struct table* mk_table(int size, HASH_FUNCTION(hash)) {
   struct table *t = malloc(sizeof(struct table));
   t->size = 0;
   t->entries = NULL;
@@ -27,8 +27,8 @@ struct table* mk_table(int size, long (*hash)(void*)) {
 void add_to_table(struct table *t, void *value) {
   struct table_entry *e = mk_entry();
   e->entry = value;
-
-  printf("TODO: Inserting value at hash location\n");
+  
+  // TODO
 }
 
 void set_table_size(struct table *t, unsigned int size) {

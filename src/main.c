@@ -15,13 +15,18 @@ unsigned long hash(unsigned char *str) {
 
 int main() {
   struct table* t = mk_table(100, (HASH_FUNCTION()) hash);
+  
+  char *e1 = "a";
+  char *e2 = "b";
+  char *e3 = "c";
+  char *e4 = "d";
 
-  for (unsigned int i = 0; i < 10; i ++) {
-    char *buf = malloc(20 * sizeof(char));
-    sprintf(buf, "elem%d", i);
-
-    table_add(t, buf);
-  }
+  table_add(t, e1);
+  table_add(t, e2);
+  table_add(t, e3);
+  table_add(t, e4);
+  
+  table_remove(t, e2);
 
   table_print_entries(t);
 

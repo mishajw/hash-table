@@ -6,7 +6,7 @@ OUTPUT_FULL="$BUILD_DIR/$OUTPUT_NAME"
 
 do_build() {
   mkdir -p $BUILD_DIR
-  gcc ./src/main.c -o $OUTPUT_FULL
+  gcc ./src/*.c -o $OUTPUT_FULL
 }
 
 do_run() {

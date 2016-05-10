@@ -4,16 +4,16 @@
 #include <string.h>
 
 /* Private functions */
-void set_table_size(struct table *t, unsigned int size);
-void add_entry_at_location(struct table *t, struct table_entry *te, unsigned int location);
-void add_entry(struct table *t, struct table_entry *te);
-void add_entry_to_entry(struct table_entry *base, struct table_entry *te);
-struct table_entry* remove_from_chain(struct table_entry *te, void *value);
-int exists_in_chain(struct table_entry *te, void *value);
-int count_chain(struct table_entry *te);
-void print_entries_chained(struct table_entry *te);
-struct table_entry* mk_entry();
-int get_location(struct table *t, void *value);
+void    set_table_size            (struct table *t, unsigned int size);
+void    add_entry_at_location     (struct table *t, struct table_entry *te, unsigned int location);
+void    add_entry                 (struct table *t, struct table_entry *te);
+void    add_entry_to_entry        (struct table_entry *base, struct table_entry *te);
+struct table_entry*     remove_from_chain   (struct table_entry *te, void *value);
+int     exists_in_chain           (struct table_entry *te, void *value);
+int     count_chain               (struct table_entry *te);
+void    print_entries_chained     (struct table_entry *te);
+struct table_entry*     mk_entry            ();
+int     get_location              (struct table *t, void *value);
 
 struct table_entry {
   void* entry;

@@ -11,11 +11,11 @@ struct table {
 
 struct table* mk_table(int size, HASH_FUNCTION(hash));
 
-void table_add(struct table *t, void *value);
-void table_remove(struct table *t, void *value);
-int table_exists(struct table *t, void *value);
-int table_count(struct table *t);
-void table_print_entries(struct table *t);
+void    table_add             (struct table *t, void *value);
+void    table_remove          (struct table *t, void *value);
+int     table_exists          (struct table *t, void *value);
+int     table_count           (struct table *t);
+void    table_print_entries   (struct table *t);
 
 #endif
 

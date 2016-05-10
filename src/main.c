@@ -16,9 +16,9 @@ unsigned long hash(unsigned char *str) {
 int main() {
   struct table* t = mk_table(100, (HASH_FUNCTION()) hash);
 
-  add(t, "Element One");
+  table_add(t, "Element One");
 
-  add(t, "Element Two");
+  table_add(t, "Element Two");
 
   return 0;
 }

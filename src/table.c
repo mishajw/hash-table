@@ -26,7 +26,7 @@ struct table* mk_table(int size, HASH_FUNCTION(hash)) {
   return t;
 }
 
-void add(struct table *t, void *value) {
+void table_add(struct table *t, void *value) {
   struct table_entry *te = mk_entry();
   te->entry = value;
 

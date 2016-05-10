@@ -6,6 +6,7 @@
 /* Private functions */
 void set_table_size(struct table *t, unsigned int size);
 void add_entry_at_location(struct table *t, struct table_entry *te, unsigned int location);
+void add_entry(struct table *t, struct table_entry *te);
 void append_entry(struct table_entry *base, struct table_entry *te);
 
 struct table_entry {
@@ -24,13 +25,6 @@ struct table* mk_table(int size, HASH_FUNCTION(hash)) {
   return t;
 }
 
-void add_to_table(struct table *t, void *value) {
-  struct table_entry *e = mk_entry();
-  e->entry = value;
-  
-  // TODO
-}
-
 void set_table_size(struct table *t, unsigned int size) {
   int chunk_size = sizeof(struct table_entry) * size;
 
@@ -45,6 +39,20 @@ struct table_entry* mk_entry() {
   te->next = NULL;
 
   return te;
+}
+
+void add_to_table(struct table *t, void *value) {
+  struct table_entry *te = mk_entry();
+  te->entry = value;
+
+  add_entry(t, te);
+}
+
+void add_entry(struct table *t, struct table_entry *te) {
+  unsigned long hash = t->hash(te->entry);
+  unsigned int bounded_hash = (int) (hash % ((long) t->size));
+
+  add_entry_at_location(t, te, bounded_hash);
 }
 
 void add_entry_at_location(struct table *t, struct table_entry *te, unsigned int location) {

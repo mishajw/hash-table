@@ -1,7 +1,7 @@
 #ifndef TABLE
 #define TABLE
 
-#define HASH_FUNCTION(name) unsigned long (*name)(void*)
+#define HASH_FUNCTION(name) unsigned long (*name)(void**)
 
 struct table {
   unsigned int size;

@@ -14,7 +14,7 @@ unsigned long hash(unsigned char *str) {
 }
 
 int main() {
-  struct table* t = mk_table(100, NULL);
+  struct table* t = mk_table(100, (HASH_FUNCTION()) hash);
 
   add_to_table(t, "Element One");
 

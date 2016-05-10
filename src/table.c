@@ -98,13 +98,13 @@ struct table_entry* remove_from_chain(struct table *t, struct table_entry *te, v
   return te->next;
 }
 
-int table_exists (struct table *t, void *key) {
+int table_exists(struct table *t, void *key) {
   struct table_entry *te = get_entry(t, key);
 
   return te != NULL;
 }
 
-void* table_lookup (struct table *t, void *key) {
+void* table_lookup(struct table *t, void *key) {
   struct table_entry *te = get_entry(t, key);
 
   if (te) {

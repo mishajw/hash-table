@@ -8,6 +8,7 @@ void set_table_size(struct table *t, unsigned int size);
 void add_entry_at_location(struct table *t, struct table_entry *te, unsigned int location);
 void add_entry(struct table *t, struct table_entry *te);
 void add_entry_to_entry(struct table_entry *base, struct table_entry *te);
+void print_entries_chained(struct table_entry *te);
 struct table_entry* mk_entry();
 
 struct table_entry {
@@ -76,8 +77,16 @@ void table_print_entries(struct table *t) {
     if (!t->entries[i]) {
       continue;
     }
+    
+    print_entries_chained(t->entries[i]);
+  }
+}
 
-    printf("%s\n", t->entries[i]->entry);
+void print_entries_chained(struct table_entry *te) {
+  printf("%s\n", te->entry);
+
+  if (te->next) {
+    print_entries_chained(te->next);
   }
 }
 

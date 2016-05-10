@@ -10,6 +10,7 @@ void add_entry(struct table *t, struct table_entry *te);
 void add_entry_to_entry(struct table_entry *base, struct table_entry *te);
 struct table_entry* remove_from_chain(struct table_entry *te, void *value);
 int exists_in_chain(struct table_entry *te, void *value);
+int count_chain(struct table_entry *te);
 void print_entries_chained(struct table_entry *te);
 struct table_entry* mk_entry();
 int get_location(struct table *t, void *value);
@@ -110,6 +111,26 @@ int exists_in_chain(struct table_entry *te, void *value) {
     return 1;
   } else {
     return exists_in_chain(te->next, value);
+  }
+}
+
+int table_count(struct table *t) {
+  int total = 0;
+
+  for (unsigned int i = 0; i < t->size; i++) {
+    if (!t->entries[i]) continue;
+
+    total += count_chain(t->entries[i]);
+  }
+
+  return total;
+}
+
+int count_chain(struct table_entry *te) {
+  if (te) {
+    return 1 + count_chain(te->next);
+  } else {
+    return 0;
   }
 }
 

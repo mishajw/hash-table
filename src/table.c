@@ -13,7 +13,7 @@ struct table_entry {
   struct table_entry* next;
 };
 
-struct table* mk_table(int size, long (*hash)(int)) {
+struct table* mk_table(int size, long (*hash)(void*)) {
   struct table *t = malloc(sizeof(struct table));
   t->size = 0;
   t->entries = NULL;

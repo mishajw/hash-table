@@ -71,6 +71,16 @@ void add_entry_to_entry(struct table_entry *base, struct table_entry *te) {
   }
 }
 
+void table_print_entries(struct table *t) {
+  for (unsigned int i = 0; i < t->size; i++) {
+    if (!t->entries[i]) {
+      continue;
+    }
+
+    printf("%s\n", t->entries[i]->entry);
+  }
+}
+
 struct table_entry* mk_entry() {
   struct table_entry *te = malloc(sizeof(struct table_entry));
   te->entry = NULL;

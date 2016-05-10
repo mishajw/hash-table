@@ -2,9 +2,16 @@
 #include <stdlib.h>
 #include <string.h>
 
+struct table* mk_table(int size, long (*hash)(int));
+struct table_entry* mk_entry();
+
+void set_table_size(struct table *t, unsigned int size);
+void add_to_table(struct table *t, struct table_entry *te, unsigned int location);
+
 struct table {
   unsigned int size;
   struct table_entry **entries;
+  long (*hash)(int);
 };
 
 struct table_entry {
@@ -12,20 +19,15 @@ struct table_entry {
   struct table_entry* next;
 };
 
-struct table* mk_table() {
+struct table* mk_table(int size, long (*hash)(int)) {
   struct table *t = malloc(sizeof(struct table));
   t->size = 0;
   t->entries = NULL;
+  t->hash = hash;
+
+  set_table_size(t, size);
 
   return t;
-}
-
-struct table_entry* mk_entry() {
-  struct table_entry *te = malloc(sizeof(struct table_entry));
-  te->entry = NULL;
-  te->next = NULL;
-
-  return te;
 }
 
 void set_table_size(struct table *t, unsigned int size) {
@@ -34,6 +36,14 @@ void set_table_size(struct table *t, unsigned int size) {
   t->size = size;
   t->entries = malloc(chunk_size);
   memset(t->entries, '\0', chunk_size);
+}
+
+struct table_entry* mk_entry() {
+  struct table_entry *te = malloc(sizeof(struct table_entry));
+  te->entry = NULL;
+  te->next = NULL;
+
+  return te;
 }
 
 void add_to_table(struct table *t, struct table_entry *te, unsigned int location) {
@@ -53,10 +63,11 @@ void add_to_table(struct table *t, struct table_entry *te, unsigned int location
 }
 
 int main() {
-  struct table* t = mk_table();
-  set_table_size(t, 100);
+  struct table* t = mk_table(100, NULL);
 
   struct table_entry* te = mk_entry();
   add_to_table(t, te, 5);
+
+  return 0;
 }
 

@@ -3,6 +3,9 @@
 #include <stdlib.h>
 #include <string.h>
 
+/* Private functions */
+void set_table_size(struct table *t, unsigned int size);
+
 struct table* mk_table(int size, long (*hash)(int)) {
   struct table *t = malloc(sizeof(struct table));
   t->size = 0;

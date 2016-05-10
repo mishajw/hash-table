@@ -20,11 +20,12 @@ struct table_entry {
   struct table_entry* next;
 };
 
-struct table* mk_table(int size, HASH_FUNCTION(hash)) {
+struct table* mk_table(int size, HASH_FUNCTION(hash), EQ_FUNCTION(eq)) {
   struct table *t = malloc(sizeof(struct table));
   t->size = 0;
   t->entries = NULL;
   t->hash = hash;
+  t->eq = eq;
 
   set_table_size(t, size);
 

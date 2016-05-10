@@ -13,8 +13,16 @@ unsigned long hash(unsigned char *str) {
     return hash;
 }
 
+int eq(char *s1, char *s2) {
+  if (strcmp(s1, s2) == 0) {
+    return 1;
+  } else {
+    return 0;
+  }
+}
+
 int main() {
-  struct table* t = mk_table(100, (HASH_FUNCTION()) hash);
+  struct table* t = mk_table(100, (HASH_FUNCTION()) hash, (EQ_FUNCTION()) eq);
   
   char *e1 = "a";
   char *e2 = "b";

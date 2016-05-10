@@ -2,14 +2,16 @@
 #define TABLE
 
 #define HASH_FUNCTION(name) unsigned long (*name)(void**)
+#define EQ_FUNCTION(name)   int (*name)(void**, void**)
 
 struct table {
   unsigned int size;
   struct table_entry **entries;
   HASH_FUNCTION(hash);
+  EQ_FUNCTION(eq);
 };
 
-struct table* mk_table(int size, HASH_FUNCTION(hash));
+struct table* mk_table(int size, HASH_FUNCTION(hash), EQ_FUNCTION(eq));
 
 void    table_add             (struct table *t, void *value);
 void    table_remove          (struct table *t, void *value);

@@ -34,7 +34,7 @@ int main() {
   table_add(t, e3);
   table_add(t, e4);
   
-  table_remove(t, e2);
+  table_remove(t, "c");
 
   table_print_entries(t);
   

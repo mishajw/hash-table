@@ -8,8 +8,8 @@ void    set_table_size            (struct table *t, unsigned int size);
 void    add_entry_at_location     (struct table *t, struct table_entry *te, unsigned int location);
 void    add_entry                 (struct table *t, struct table_entry *te);
 void    add_entry_to_entry        (struct table_entry *base, struct table_entry *te);
-struct table_entry*     remove_from_chain   (struct table_entry *te, void *value);
-int     exists_in_chain           (struct table_entry *te, void *value);
+struct table_entry*     remove_from_chain   (struct table *t, struct table_entry *te, void *value);
+int     exists_in_chain           (struct table *t, struct table_entry *te, void *value);
 int     count_chain               (struct table_entry *te);
 void    print_entries_chained     (struct table_entry *te);
 struct table_entry*     mk_entry            ();
@@ -77,17 +77,17 @@ void add_entry_to_entry(struct table_entry *base, struct table_entry *te) {
 
 void table_remove(struct table *t, void *value) {
   int location = get_location(t, value);
-  t->entries[location] = remove_from_chain(t->entries[location], value);
+  t->entries[location] = remove_from_chain(t, t->entries[location], value);
 }
 
-struct table_entry* remove_from_chain(struct table_entry *te, void *value) {
+struct table_entry* remove_from_chain(struct table *t, struct table_entry *te, void *value) {
   if (!te) {
     fprintf(stderr, "Can't delete %s because doesn't exist", (char *) value);
     return NULL;
   }
 
-  if (te->entry != value) {
-    struct table_entry *new_next = remove_from_chain(te->next, value);
+  if (!t->eq(te->entry, value)) {
+    struct table_entry *new_next = remove_from_chain(t, te->next, value);
     te->next = new_next;
     return te;
   }
@@ -102,16 +102,16 @@ int table_exists(struct table *t, void *value) {
     return 0;
   }
 
-  return exists_in_chain(t->entries[location], value);
+  return exists_in_chain(t, t->entries[location], value);
 }
 
-int exists_in_chain(struct table_entry *te, void *value) {
+int exists_in_chain(struct table *t, struct table_entry *te, void *value) {
   if (!te) {
     return 0;
-  } else if (te->entry == value) {
+  } else if (t->eq(te->entry, value)) {
     return 1;
   } else {
-    return exists_in_chain(te->next, value);
+    return exists_in_chain(t, te->next, value);
   }
 }
 

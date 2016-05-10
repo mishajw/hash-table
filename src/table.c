@@ -7,7 +7,7 @@
 void set_table_size(struct table *t, unsigned int size);
 void add_entry_at_location(struct table *t, struct table_entry *te, unsigned int location);
 void add_entry(struct table *t, struct table_entry *te);
-void append_entry(struct table_entry *base, struct table_entry *te);
+void add_entry_to_entry(struct table_entry *base, struct table_entry *te);
 struct table_entry* mk_entry();
 
 struct table_entry {
@@ -26,19 +26,19 @@ struct table* mk_table(int size, HASH_FUNCTION(hash)) {
   return t;
 }
 
-void table_add(struct table *t, void *value) {
-  struct table_entry *te = mk_entry();
-  te->entry = value;
-
-  add_entry(t, te);
-}
-
 void set_table_size(struct table *t, unsigned int size) {
   int chunk_size = sizeof(struct table_entry) * size;
 
   t->size = size;
   t->entries = malloc(chunk_size);
   memset(t->entries, '\0', chunk_size);
+}
+
+void table_add(struct table *t, void *value) {
+  struct table_entry *te = mk_entry();
+  te->entry = value;
+
+  add_entry(t, te);
 }
 
 void add_entry(struct table *t, struct table_entry *te) {
@@ -59,13 +59,13 @@ void add_entry_at_location(struct table *t, struct table_entry *te, unsigned int
   if (!te_current) {
     t->entries[location] = te;
   } else {
-    append_entry(te_current, te);
+    add_entry_to_entry(te_current, te);
   }
 }
 
-void append_entry(struct table_entry *base, struct table_entry *te) {
+void add_entry_to_entry(struct table_entry *base, struct table_entry *te) {
   if (base->next) {
-    append_entry(base->next, te);
+    add_entry_to_entry(base->next, te);
   } else {
     base->next = te;
   }

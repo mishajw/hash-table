@@ -36,6 +36,9 @@ int main() {
   printf("%d\n", table_exists(t, "b"));
   printf("%d\n", table_exists(t, "c"));
 
+  printf("%s\n", (char*) table_lookup(t, "a"));
+  printf("%s\n", (char*) table_lookup(t, "b"));
+
   printf("Count: %d\n", table_count(t));
 
   return 0;

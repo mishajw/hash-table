@@ -26,27 +26,19 @@ struct table* mk_table(int size, HASH_FUNCTION(hash)) {
   return t;
 }
 
+void add(struct table *t, void *value) {
+  struct table_entry *te = mk_entry();
+  te->entry = value;
+
+  add_entry(t, te);
+}
+
 void set_table_size(struct table *t, unsigned int size) {
   int chunk_size = sizeof(struct table_entry) * size;
 
   t->size = size;
   t->entries = malloc(chunk_size);
   memset(t->entries, '\0', chunk_size);
-}
-
-struct table_entry* mk_entry() {
-  struct table_entry *te = malloc(sizeof(struct table_entry));
-  te->entry = NULL;
-  te->next = NULL;
-
-  return te;
-}
-
-void add_to_table(struct table *t, void *value) {
-  struct table_entry *te = mk_entry();
-  te->entry = value;
-
-  add_entry(t, te);
 }
 
 void add_entry(struct table *t, struct table_entry *te) {
@@ -77,5 +69,13 @@ void append_entry(struct table_entry *base, struct table_entry *te) {
   } else {
     base->next = te;
   }
+}
+
+struct table_entry* mk_entry() {
+  struct table_entry *te = malloc(sizeof(struct table_entry));
+  te->entry = NULL;
+  te->next = NULL;
+
+  return te;
 }
 

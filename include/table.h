@@ -11,7 +11,7 @@ struct table {
 
 struct table* mk_table(int size, HASH_FUNCTION(hash));
 
-void add_to_table(struct table *t, void *value);
+void add(struct table *t, void *value);
 
 #endif
 

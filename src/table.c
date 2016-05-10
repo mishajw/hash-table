@@ -128,7 +128,7 @@ struct table_entry* get_entry_in_chain(struct table *t, struct table_entry *te, 
   if (!te) {
     return NULL;
   } else if (t->eq(te->key, key)) {
-    return te->value;
+    return te;
   } else {
     return get_entry_in_chain(t, te->next, key);
   }

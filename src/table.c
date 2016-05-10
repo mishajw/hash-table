@@ -81,7 +81,7 @@ void table_remove(struct table *t, void *value) {
 
 struct table_entry* remove_from_chain(struct table_entry *te, void *value) {
   if (!te) {
-    fprintf(stderr, "Can't delete %s because doesn't exist", value);
+    fprintf(stderr, "Can't delete %s because doesn't exist", (char *) value);
     return NULL;
   }
 
@@ -145,7 +145,7 @@ void table_print_entries(struct table *t) {
 }
 
 void print_entries_chained(struct table_entry *te) {
-  printf("%s\n", te->entry);
+  printf("%s\n", (char *) te->entry);
 
   if (te->next) {
     print_entries_chained(te->next);

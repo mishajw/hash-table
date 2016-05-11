@@ -22,24 +22,26 @@ int eq(char *s1, char *s2) {
 }
 
 int main() {
-  struct table* t = mk_table(100, (HASH_FUNCTION()) hash, (EQ_FUNCTION()) eq);
+  struct table* t = mk_table(100, (hash_function) hash, (eq_function) eq);
   
-  table_add(t, "a", "x");
-  table_add(t, "b", "y");
-  table_add(t, "c", "z");
-  
-  table_remove(t, "c");
+  for (int i = 0; i < 100; i++) {
+    char *key = malloc(20);
+    char *value = malloc(20);
+    sprintf(key, "key%d", i);
+    sprintf(value, "value%d", i);
+    table_add(t, key, value);
+  }
+
+  for (int i = 0; i < 100; i++) {
+    char *key = malloc(20);
+    sprintf(key, "key%d", i);
+
+    if (!table_exists(t, key)) {
+      printf("Key not in table %s\n", key);
+    }
+  }
 
   table_print_entries(t);
-  
-  printf("%d\n", table_exists(t, "a"));
-  printf("%d\n", table_exists(t, "b"));
-  printf("%d\n", table_exists(t, "c"));
-
-  printf("%s\n", (char*) table_lookup(t, "a"));
-  printf("%s\n", (char*) table_lookup(t, "b"));
-
-  printf("Count: %d\n", table_count(t));
 
   return 0;
 }

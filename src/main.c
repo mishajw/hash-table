@@ -24,14 +24,14 @@ int eq(char *s1, char *s2) {
 int main() {
   struct table* t = mk_table(100, (hash_function) hash, (eq_function) eq);
   
+  puts("Building table...");
   for (int i = 0; i < 100; i++) {
     char *key = malloc(20);
     char *value = malloc(20);
-    sprintf(key, "key%d", i);
-    sprintf(value, "value%d", i);
     table_add(t, key, value);
   }
 
+  puts("Checking everything is stored");
   for (int i = 0; i < 100; i++) {
     char *key = malloc(20);
     sprintf(key, "key%d", i);
@@ -40,8 +40,6 @@ int main() {
       printf("Key not in table %s\n", key);
     }
   }
-
-  table_print_entries(t);
 
   return 0;
 }

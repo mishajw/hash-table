@@ -28,6 +28,8 @@ int main() {
   for (int i = 0; i < 100; i++) {
     char *key = malloc(20);
     char *value = malloc(20);
+    sprintf(key, "key%d", i);
+    sprintf(value, "value%d", i);
     table_add(t, key, value);
   }
 
@@ -40,6 +42,8 @@ int main() {
       printf("Key not in table %s\n", key);
     }
   }
+
+  puts("Done");
 
   return 0;
 }

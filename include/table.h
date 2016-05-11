@@ -1,17 +1,17 @@
 #ifndef TABLE
 #define TABLE
 
-#define HASH_FUNCTION(name) unsigned long (*name)(void**)
-#define EQ_FUNCTION(name)   int (*name)(void**, void**)
+typedef unsigned long (*hash_function)(void**);
+typedef int           (*eq_function)  (void**, void**);
 
 struct table {
   unsigned int size;
   struct table_entry **entries;
-  HASH_FUNCTION(hash);
-  EQ_FUNCTION(eq);
+  hash_function hash;
+  eq_function eq;
 };
 
-struct table* mk_table(int size, HASH_FUNCTION(hash), EQ_FUNCTION(eq));
+struct table* mk_table(int size, hash_function hash, eq_function eq);
 
 void    table_add             (struct table *t, void *key, void *value);
 void    table_remove          (struct table *t, void *key);

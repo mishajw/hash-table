@@ -45,7 +45,7 @@ case "$action" in
     do_run ;;
   "all-test")
     if do_cmake && do_make; then
-      do_run
+      do_test
     fi ;;
   "test")
     do_test ;;

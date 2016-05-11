@@ -3,15 +3,8 @@ project (hash-table)
 
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Werror -Wextra")
 
-set(
-  SOURCE_FILES
-  main/src/main.c
-  main/src/table.c
-)
+add_subdirectory(main)
 
-set(EXECUTABLE_NAME hash-table)
-
-include_directories(main/include)
-
-add_executable(${EXECUTABLE_NAME} ${SOURCE_FILES})
+enable_testing()
+add_subdirectory(test)
 

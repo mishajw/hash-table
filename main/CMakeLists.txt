@@ -3,7 +3,7 @@ project (hash-table)
 
 include_directories(include)
 
-add_library(hash-table-lib
+add_executable(hash-table
   src/main.c
   src/table.c
   include/table.h

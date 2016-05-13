@@ -55,11 +55,36 @@ START_TEST (exist)
 }
 END_TEST
 
+START_TEST (add_stress) {
+  int amount = 10000;
+
+  struct table *t = default_table();
+
+  // Build table
+  for (int i = 0; i < amount; i++) {
+    char *key = malloc(20);
+    char *value = malloc(20);
+    sprintf(key, "key%d", i);
+    sprintf(value, "value%d", i);
+    table_add(t, key, value);
+  }
+
+  // Check everything stored
+  for (int i = 0; i < amount; i++) {
+    char *key = malloc(20);
+    sprintf(key, "key%d", i);
+
+    fail_if(!table_exists(t, key));
+  }
+}
+END_TEST
+
 Suite* str_suite(void) {
   Suite *suite = suite_create("hash_table");
   TCase *tcase = tcase_create("case");
   tcase_add_test(tcase, add);
   tcase_add_test(tcase, exist);
+  tcase_add_test(tcase, add_stress);
   suite_add_tcase(suite, tcase);
   return suite;
 }

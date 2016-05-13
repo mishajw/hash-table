@@ -42,10 +42,24 @@ START_TEST (add)
 }
 END_TEST
 
+START_TEST (exist)
+{
+  struct table *t = default_table();
+  table_add(t, mk_string("a", 5), mk_string("", 5));
+  table_add(t, mk_string("b", 5), mk_string("", 5));
+  table_add(t, mk_string("c", 5), mk_string("", 5));
+
+  table_remove(t, "b");
+
+  fail_if(table_exists(t, "b"));
+}
+END_TEST
+
 Suite* str_suite(void) {
   Suite *suite = suite_create("hash_table");
   TCase *tcase = tcase_create("case");
   tcase_add_test(tcase, add);
+  tcase_add_test(tcase, exist);
   suite_add_tcase(suite, tcase);
   return suite;
 }

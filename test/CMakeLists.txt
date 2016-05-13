@@ -1,15 +1,12 @@
-cmake_minimum_required (VERSION 3.5)
-project (hash-table)
+enable_testing()
 
-include_directories(include)
+find_package(Check REQUIRED)
+include_directories(${CHECK_INCLUDE_DIRS})
+set(LIBS ${LIBS} ${CHECK_LIBRARIES} hash_table_lib)
 
-add_executable(Test src/test.c)
+include_directories(include, ../main/include)
+add_executable(hash_table_test src/test.c)
+target_link_libraries(hash_table_test ${LIBS})
 
-# Check
-find_library (CHECK check)
-if (CHECK)
-  target_link_libraries(Test check)
-  message (STATUS "Using Check ${CHECK}")
-else()
-  message (SEND_ERROR "Check is required")
-endif()
+add_test(hash_table_test ${CMAKE_CURRENT_BINARY_DIR}/hash_table_test)
+

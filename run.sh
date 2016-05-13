@@ -42,6 +42,8 @@ case "$action" in
     do_make ;;
   "test")
     do_test ;;
+  "quick")
+    do_make && do_test ;;
   "all")
     do_clean && do_cmake && do_make && do_test ;;
   *)

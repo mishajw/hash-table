@@ -45,13 +45,10 @@ END_TEST
 START_TEST (exist)
 {
   struct table *t = default_table();
-  table_add(t, mk_string("a", 5), mk_string("", 5));
-  table_add(t, mk_string("b", 5), mk_string("", 5));
-  table_add(t, mk_string("c", 5), mk_string("", 5));
-
-  table_remove(t, "b");
-
-  fail_if(table_exists(t, "b"));
+  table_add(t, mk_string("key", 5), mk_string("value", 5));
+  fail_if(!table_exists(t, "key"));
+  table_remove(t, "key");
+  fail_if(table_exists(t, "key"));
 }
 END_TEST
 

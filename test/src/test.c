@@ -34,7 +34,7 @@ char* mk_string(char* unalloc, unsigned int size) {
   return alloc;
 }
 
-START_TEST (add)
+START_TEST (lookup)
 {
   struct table *t = default_table();
   table_add(t, mk_string("abc", 5), mk_string("xyz", 5));
@@ -52,7 +52,7 @@ START_TEST (exist)
 }
 END_TEST
 
-START_TEST (add_stress) {
+START_TEST (lookup_stress) {
   int amount = 10000;
 
   struct table *t = default_table();
@@ -79,9 +79,9 @@ END_TEST
 Suite* str_suite(void) {
   Suite *suite = suite_create("hash_table");
   TCase *tcase = tcase_create("case");
-  tcase_add_test(tcase, add);
+  tcase_add_test(tcase, lookup);
   tcase_add_test(tcase, exist);
-  tcase_add_test(tcase, add_stress);
+  tcase_add_test(tcase, lookup_stress);
   suite_add_tcase(suite, tcase);
   return suite;
 }

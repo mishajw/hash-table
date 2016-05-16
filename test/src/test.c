@@ -130,9 +130,9 @@ END_TEST
 Suite* str_suite(void) {
   Suite *suite = suite_create("hash_table");
   TCase *tcase = tcase_create("case");
-  // tcase_add_test(tcase, lookup);
-  // tcase_add_test(tcase, exist);
-  // tcase_add_test(tcase, lookup_stress);
+  tcase_add_test(tcase, lookup);
+  tcase_add_test(tcase, exist);
+  tcase_add_test(tcase, lookup_stress);
   tcase_add_test(tcase, lookup_multithreaded);
   suite_add_tcase(suite, tcase);
   return suite;

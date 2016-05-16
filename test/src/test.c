@@ -102,6 +102,7 @@ START_TEST (lookup_multithreaded)
   unsigned int thread_amount = 1;
   pthread_t threads[thread_amount];
 
+  // Create threads
   for (int i = 0; i < thread_amount; i ++) {
     struct add_struct *as = malloc(sizeof(struct add_struct));
     as->t = t;
@@ -116,6 +117,7 @@ START_TEST (lookup_multithreaded)
     }
   }
  
+  // Wait for threads to finish
   for (int i = 0; i < thread_amount; i ++) {
     if(pthread_join(threads[i], NULL)) {
       printf("Couldn't join thread %d\n", i);

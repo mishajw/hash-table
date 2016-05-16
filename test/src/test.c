@@ -99,7 +99,7 @@ START_TEST (lookup_multithreaded)
 {
   struct table *t = default_table();
 
-  unsigned int thread_amount = 1;
+  unsigned int thread_amount = 3;
   pthread_t threads[thread_amount];
 
   // Create threads

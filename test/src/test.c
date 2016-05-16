@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <check.h>
 #include <string.h>
+#include <pthread.h>
 
 #include "table.h"
 
@@ -76,12 +77,63 @@ START_TEST (lookup_stress) {
 }
 END_TEST
 
+struct add_struct {
+  struct table *t;
+  char *prefix;
+  int length;
+  int amount;
+};
+
+void *add_to_table(struct add_struct *as) {
+  for (int i = 0; i < as->amount; i++) {
+    char *key = malloc(as->length + 10);
+    sprintf(key, "%s_key_%d", as->prefix, i);
+    char *val = malloc(as->length + 10);
+    sprintf(key, "%s_val_%d", as->prefix, i);
+
+    table_add(as->t, key, val);
+  }
+}
+
+START_TEST (lookup_multithreaded)
+{
+  struct table *t = default_table();
+
+  unsigned int thread_amount = 1;
+  pthread_t threads[thread_amount];
+
+  for (int i = 0; i < thread_amount; i ++) {
+    struct add_struct *as = malloc(sizeof(struct add_struct));
+    as->t = t;
+    as->length = 3;
+    as->amount = 100;
+    as->prefix = malloc(10);
+    sprintf(as->prefix, "thread%d", i);
+
+    if (pthread_create(&threads[i], NULL, (void*(*)(void*))add_to_table, as)) {
+      printf("Couldn't create thread %d\n", i);
+      ck_abort();
+    }
+  }
+ 
+  for (int i = 0; i < thread_amount; i ++) {
+    if(pthread_join(threads[i], NULL)) {
+      printf("Couldn't join thread %d\n", i);
+      ck_abort();
+    }
+  }
+
+  table_print_entries(t);
+}
+END_TEST
+
 Suite* str_suite(void) {
   Suite *suite = suite_create("hash_table");
   TCase *tcase = tcase_create("case");
-  tcase_add_test(tcase, lookup);
-  tcase_add_test(tcase, exist);
-  tcase_add_test(tcase, lookup_stress);
+  // tcase_add_test(tcase, lookup);
+  // tcase_add_test(tcase, exist);
+  // tcase_add_test(tcase, lookup_stress);
+  tcase_add_test(tcase, lookup_multithreaded);
   suite_add_tcase(suite, tcase);
   return suite;
 }

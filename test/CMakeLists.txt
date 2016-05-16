@@ -1,8 +1,14 @@
 enable_testing()
 
+# check lib
 find_package(Check REQUIRED)
 include_directories(${CHECK_INCLUDE_DIRS})
-set(LIBS ${LIBS} ${CHECK_LIBRARIES} hash_table_lib)
+
+# pthread lib
+find_package (Threads)
+
+# Add all libs
+set(LIBS ${LIBS} ${CHECK_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT} hash_table_lib)
 
 include_directories(include, ../main/include)
 add_executable(hash_table_test src/test.c)

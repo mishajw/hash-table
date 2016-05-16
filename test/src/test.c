@@ -87,9 +87,9 @@ struct add_struct {
 void *add_to_table(struct add_struct *as) {
   for (int i = 0; i < as->amount; i++) {
     char *key = malloc(as->length + 10);
-    sprintf(key, "%s_key_%d", as->prefix, i);
     char *val = malloc(as->length + 10);
-    sprintf(key, "%s_val_%d", as->prefix, i);
+    sprintf(key, "%s_key_%d", as->prefix, i);
+    sprintf(val, "%s_val_%d", as->prefix, i);
 
     table_add(as->t, key, val);
   }

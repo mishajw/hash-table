@@ -1,8 +1,8 @@
 #ifndef TABLE
 #define TABLE
 
-typedef unsigned long (*hash_function)(void**);
-typedef int           (*eq_function)  (void**, void**);
+typedef unsigned long (*hash_function)(void*);
+typedef int           (*eq_function)  (void*, void*);
 
 struct table {
   unsigned int size;

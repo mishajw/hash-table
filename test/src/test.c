@@ -99,7 +99,8 @@ START_TEST (lookup_multithreaded)
 {
   struct table *t = default_table();
 
-  unsigned int thread_amount = 3;
+  unsigned int thread_amount = 10;
+  unsigned int entry_amount = 1000;
   pthread_t threads[thread_amount];
 
   // Create threads
@@ -107,7 +108,7 @@ START_TEST (lookup_multithreaded)
     struct add_struct *as = malloc(sizeof(struct add_struct));
     as->t = t;
     as->length = 3;
-    as->amount = 100;
+    as->amount = entry_amount;
     as->prefix = malloc(10);
     sprintf(as->prefix, "thread%d", i);
 
@@ -125,7 +126,21 @@ START_TEST (lookup_multithreaded)
     }
   }
 
-  table_print_entries(t);
+  for (int i = 0; i < thread_amount; i++) {
+    for (int j = 0; j < entry_amount; j++) {
+      char* key = malloc(20);
+      char* val = malloc(20);
+
+      sprintf(key, "%d_key_%d", i, j);
+      sprintf(val, "%d_val_%d", i, j);
+
+      if (!strcmp(key, val)) {
+        printf("Doesn't match: %s, %s\n", key, val);
+      }
+    }
+  }
+
+  /* table_print_entries(t); */
 }
 END_TEST
 
